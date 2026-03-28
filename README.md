@@ -1,6 +1,6 @@
-# PROY-2026-GRUPOX
+# PROY-2026-GRUPO3
 
-Repositorio del grupo X para el proyecto del ramo *Proyecto Inicial (IWG400)* – 2026.
+Repositorio del grupo 3 para el proyecto del ramo *Proyecto Inicial (IWG400)* – 2026.
 
 ## 👥 Integrantes del grupo
 
