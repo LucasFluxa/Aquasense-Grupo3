@@ -6,10 +6,10 @@ Repositorio del grupo 3 para el proyecto del ramo *Proyecto Inicial (IWG400)* �
 
 | Nombre y Apellido | Usuario GitHub | Correo USM               | Rol USM      |
 | ----------------- | -------------- | ------------------------ | ------------ |
-| Lucas Fluxá       | @LucasFluxa    | lfluxa@usm.cl            | 202630017-k |
-| Bruno Olguín      | @usuario2      | nombre2.apellido2@usm.cl | 200000000000 |
-| José Domingo Vargas    | @usuario3      | jvargascar@usm.cl        | 202630026-9  |
-| Nombre4 Apellido4 | @usuario4      | nombre4.apellido4@usm.cl | 200000000000 |
+| Lucas Fluxá       | @LucasFluxa    | lfluxa@usm.cl            | 202630017-k  |
+| Bruno Olguín      | @Bruno-Olguin  | bolguinc@usm.cl          | 202630028-5  |
+| Domingo Vargas    | @usuario3      | jvargascar@usm.cl        | 202630026-9  |
+
 
 ## 📝 Descripción breve del proyecto
 
