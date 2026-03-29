@@ -1,4 +1,4 @@
-# PROY-2026-GRUPO3
+# PROY-2026-GRUPO-3
 
 Repositorio del grupo 3 para el proyecto del ramo *Proyecto Inicial (IWG400)* – 2026.
 
