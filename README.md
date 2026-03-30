@@ -39,7 +39,7 @@ lo anterior era broma
 - Microcontroladores
   - Arduino UNO Q, ESP32
 - Sensores
-
+ds18b20
 ---
 
 ## 🗂️ Estructura del repositorio
