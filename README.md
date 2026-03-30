@@ -40,6 +40,7 @@ lo anterior era broma
   - Arduino UNO Q, ESP32
 - Sensores
 ds18b20
+ts-300b
 ---
 
 ## 🗂️ Estructura del repositorio
