@@ -13,7 +13,7 @@ Repositorio del grupo 3 para el proyecto del ramo *Proyecto Inicial (IWG400)* 鈥
 
 ## 馃摑 Descripci贸n breve del proyecto
 
-> *Aqu铆 va una descripci贸n general del proyecto, incluyendo su prop贸sito, contexto dentro del curso y motivaci贸n.*
+hola mundo el q lo lee es gey
 
 ---
 
