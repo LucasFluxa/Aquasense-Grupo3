@@ -9,6 +9,8 @@ Repositorio del grupo 3 para el proyecto del ramo *Proyecto Inicial (IWG400)* �
 | Lucas Fluxá       | @LucasFluxa    | lfluxa@usm.cl            | 202630017-k  |
 | Bruno Olguín      | @Bruno-Olguin  | bolguinc@usm.cl          | 202630028-5  |
 | Domingo Vargas    | @Domingo-07    | jvargascar@usm.cl        | 202630026-9  |
+| Daniel Guerra     | @user          | user@usm.cl              | 2026xxxxx-x  |
+
 
 
 ## 📝 Descripción breve del proyecto
