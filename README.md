@@ -11,67 +11,76 @@ Repositorio del grupo 3 para el proyecto del ramo *Proyecto Inicial (IWG400)* �
 | Domingo Vargas    | @Domingo-07    | jvargascar@usm.cl        | 202630026-9  |
 | Daniel Guerra     | @user          | user@usm.cl              | 2026xxxxx-x  |
 
-
+---
 
 ## 📝 Descripción breve del proyecto
 
-... 
+**AquaSense** es un sistema inteligente de monitoreo de acuarios que combina sensores físicos, visión por computadora y una interfaz web local. El sistema mide en tiempo real la temperatura, pH y turbidez del agua, y utiliza una cámara para trackear el comportamiento de los peces, detectando signos de estrés o anomalías. Todo el procesamiento ocurre directamente en el Arduino UNO Q, sin depender de servidores externos.
 
 ---
 
 ## 🎯 Objetivos
 
-- Objetivo general:
-  - *Describir el objetivo principal del proyecto.*
-- Objetivos específicos:
-  - *Listar objetivos concretos que permitirán alcanzar el objetivo general.*
+- **Objetivo general:**
+  - Desarrollar un sistema de monitoreo inteligente de acuarios que permita detectar condiciones adversas del agua y comportamiento anómalo de los peces en tiempo real.
+
+- **Objetivos específicos:**
+  - Medir temperatura, pH y turbidez del agua mediante sensores conectados al Arduino UNO Q.
+  - Implementar tracking de movimiento de peces mediante cámara USB y visión por computadora corriendo localmente en el UNO Q.
+  - Desarrollar un dashboard web hosteado en el propio Arduino UNO Q accesible desde cualquier dispositivo en la misma red.
+  - Generar alertas automáticas cuando algún parámetro salga del rango ideal para las especies registradas.
+  - Permitir al usuario registrar las especies de peces de su acuario y consultar su compatibilidad y temperatura ideal.
 
 ---
 
 ## 🧩 Alcance del proyecto
 
-> *Definir qué aspectos cubre el proyecto y qué queda fuera del alcance (limitaciones).*
+**Dentro del alcance:**
+- Monitoreo en tiempo real de temperatura, pH y turbidez
+- Tracking de movimiento de peces con detección de comportamiento anómalo
+- Dashboard web local con historial de datos
+- Base de datos de especies de peces con parámetros ideales y compatibilidad
+- Alertas cuando los parámetros salen del rango óptimo
+
+**Fuera del alcance:**
+- Control automatizado de equipos del acuario (calefactor, filtro, etc.)
 
 ---
 
 ## 🛠️ Tecnologías y herramientas utilizadas
 
-- Lenguaje(s) de programación:
-  - Ej: Python, JavaScript, C++
-- Microcontroladores
-  - Arduino UNO Q, ESP32
-- Sensores
-ds18b20
-ts-300b
+- **Lenguaje(s) de programación:**
+  - Python (dashboard web)
+  - C++ / Arduino Sketch (control en tiempo real del STM32U585)
+
+- **Microcontroladores:**
+  - Arduino UNO Q (Qualcomm Dragonwing QRB2210 + STM32U585)
+
+- **Sensores:**
+  - DS18B20 — temperatura del agua (sumergible, OneWire)
+  - pH-4502C — pH del agua (analógico, con placa de acondicionamiento)
+  - TSD-10 — turbidez del agua (analógico)
+  - Webcam USB — tracking de movimiento de peces (V4L2 / OpenCV)
+
 ---
 
 ## 🗂️ Estructura del repositorio
 
-```
-/PROY-2026-GRUPOX
-│
-├── docs/               # Documentación general y reportes
-├── src/                # Código fuente del proyecto
-├── tests/              # Casos de prueba
-├── assets/             # Imágenes, diagramas, etc.
-└── README.md           # Este archivo
-```
+> *Por definir*
 
 ---
 
-## 🚀 Instrucciones de Instalacion y Uso
+## 🚀 Instrucciones de Instalación y Uso
 
-
-1. **Clonar el repositorio:** `git clone ...`
-2. **Dependencias:** Listar qué librerías necesitan (ej: `pip install -r requirements.txt` o librerías de Arduino).
-3. **Ejecución:** Cómo se corre el código principal.
+> *Por definir*
 
 ---
 
 ## 📐 Diseño del Sistema
+
 ![Diagrama de Conexiones](./assets/diagrama_conexiones.png)
 
-*Explicacion grafica de como es la conexion entre el microcontrolador y los sensores*
+*El STM32U585 lee los sensores de temperatura, pH y turbidez y los envía al Qualcomm via comunicación interna. El Qualcomm corre Python con OpenCV para el tracking de la cámara y Flask para el dashboard web.*
 
 ---
 
@@ -83,10 +92,13 @@ ts-300b
 
 ## 📚 Bibliografía
 
-[Enlace](https://google.com)
+- [Arduino UNO Q — Documentación oficial](https://docs.arduino.cc/hardware/uno-q/)
+
 
 ---
 
 ## 📌 Notas adicionales
 
-> *Espacio para dejar cualquier comentario útil, como pendientes, acuerdos del grupo, consideraciones especiales, etc.*
+> - El sensor de pH requiere calibración inicial con soluciones buffer pH 4.0 y pH 7.0, y recalibración.
+> - La cámara USB se conecta al puerto USB-C del UNO Q mediante adaptador USB-A a USB-C.
+> - Para la demo final se presentará un acuario real con peces.
