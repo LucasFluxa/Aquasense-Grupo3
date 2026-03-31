@@ -13,7 +13,7 @@ Repositorio del grupo 3 para el proyecto del ramo *Proyecto Inicial (IWG400)* �
 
 ## 📝 Descripción breve del proyecto
 
-lo anterior era broma 
+... 
 
 ---
 
