@@ -10,7 +10,7 @@ Repositorio del grupo 3 para el proyecto del ramo *Proyecto Inicial (IWG400)* �
 | Lucas Fluxá       | @LucasFluxa    | lfluxa@usm.cl            | 202630017-k  |
 | Bruno Olguín      | @Bruno-Olguin  | bolguinc@usm.cl          | 202630028-5  |
 | Domingo Vargas    | @Domingo-07    | jvargascar@usm.cl        | 202630026-9  |
-| Daniel Guerra     | @user          | user@usm.cl              | 2026xxxxx-x  |
+| Daniel Guerra     | @dannyto2      | user@usm.cl              | 2026xxxxx-x  |
 
 ---
 
@@ -101,5 +101,5 @@ Repositorio del grupo 3 para el proyecto del ramo *Proyecto Inicial (IWG400)* �
 ## 📌 Notas adicionales
 
 > - El sensor de pH requiere calibración inicial con soluciones buffer pH 4.0 y pH 7.0, y recalibración.
-> - La cámara USB se conecta al puerto USB-C del UNO Q mediante adaptador USB-A a USB-C.
+> - La cámara USB se conecta al puerto USB-C del UNO Q mediante un USB-C HUB
 > - Para la demo final se presentará un acuario real con peces.
