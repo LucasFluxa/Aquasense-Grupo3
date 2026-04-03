@@ -1,3 +1,4 @@
+
 # PROY-2026-GRUPO-3
 
 Repositorio del grupo 3 para el proyecto del ramo *Proyecto Inicial (IWG400)* – 2026.
@@ -15,15 +16,7 @@ Repositorio del grupo 3 para el proyecto del ramo *Proyecto Inicial (IWG400)* �
 
 ## 📝 Descripción breve del proyecto
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 **AquaSense** es un sistema inteligente de monitoreo de acuarios que combina sensores físicos, visión por computadora y una interfaz web local. El sistema mide en tiempo real la temperatura, pH y turbidez del agua, y utiliza una cámara para trackear el comportamiento de los peces, detectando signos de estrés o anomalías. Todo el procesamiento ocurre directamente en el Arduino UNO Q, sin depender de servidores externos.
-=======
-> *Aquí va una descripción general del proyecto, incluyendo su propósito, contexto dentro del curso y motivación.*
->>>>>>> parent of d3d8190 (Update README.md)
-=======
-> *Aquí va una descripción general del proyecto, incluyendo su propósito, contexto dentro del curso y motivación.*
->>>>>>> parent of d3d8190 (Update README.md)
 
 ---
 
