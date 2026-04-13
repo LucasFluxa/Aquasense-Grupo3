@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carta Gantt — AquaSense</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&display=swap" rel="stylesheet">
+<style>
+:root, [data-theme="light"] {
+  --color-bg: #f5f7fa;
+  --color-surface: #ffffff;
+  --color-surface-2: #f0f4f8;
+  --color-border: #d0d7e0;
+  --color-divider: #e2e8f0;
+  --color-text: #1a2233;
+  --color-text-muted: #64748b;
+  --color-text-faint: #a0aec0;
+
+  --color-done: #22c55e;
+  --color-done-bg: #dcfce7;
+  --color-done-text: #166534;
+
+  --color-progress: #3b82f6;
+  --color-progress-bg: #dbeafe;
+  --color-progress-text: #1e40af;
+
+  --color-pending: #94a3b8;
+  --color-pending-bg: #f1f5f9;
+  --color-pending-text: #475569;
+
+  --color-primary: #0e7490;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
+}
+[data-theme="dark"] {
+  --color-bg: #111827;
+  --color-surface: #1f2937;
+  --color-surface-2: #374151;
+  --color-border: #374151;
+  --color-divider: #2d3748;
+  --color-text: #f1f5f9;
+  --color-text-muted: #94a3b8;
+  --color-text-faint: #64748b;
+
+  --color-done: #4ade80;
+  --color-done-bg: #14532d;
+  --color-done-text: #bbf7d0;
+
+  --color-progress: #60a5fa;
+  --color-progress-bg: #1e3a5f;
+  --color-progress-text: #bfdbfe;
+
+  --color-pending: #64748b;
+  --color-pending-bg: #1e293b;
+  --color-pending-text: #94a3b8;
+
+  --color-primary: #22d3ee;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100dvh;
+  padding: 2rem 1.5rem;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* ---- HEADER ---- */
+.page-header {
+  max-width: 1200px;
+  margin: 0 auto 2rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.project-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 0.3rem;
+}
+.project-title {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.2;
+}
+.project-sub {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-top: 0.3rem;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.legend {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+.legend-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+}
+.btn-toggle {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.2s, color 0.2s;
+}
+.btn-toggle:hover { color: var(--color-text); background: var(--color-surface-2); }
+
+/* ---- CARD ---- */
+.gantt-card {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+/* ---- TABLE ---- */
+.gantt-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.gantt-table thead tr {
+  background: var(--color-surface-2);
+  border-bottom: 2px solid var(--color-border);
+}
+.gantt-table th {
+  padding: 0.7rem 1rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  text-align: left;
+  white-space: nowrap;
+}
+.th-center { text-align: center !important; }
+.th-month {
+  text-align: center !important;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  padding: 0.5rem 0.5rem !important;
+  color: var(--color-text-muted);
+  border-left: 1px solid var(--color-divider);
+}
+.th-week {
+  text-align: center !important;
+  font-size: 0.65rem;
+  padding: 0.4rem 0.3rem !important;
+  color: var(--color-text-faint);
+  border-left: 1px solid var(--color-divider);
+  min-width: 30px;
+}
+
+/* DATA ROWS */
+.gantt-table tbody tr {
+  border-bottom: 1px solid var(--color-divider);
+  transition: background 0.15s;
+}
+.gantt-table tbody tr:last-child { border-bottom: none; }
+.gantt-table tbody tr:hover { background: var(--color-surface-2); }
+
+.td-num {
+  padding: 0.65rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-faint);
+  text-align: center;
+  width: 36px;
+}
+.td-task {
+  padding: 0.65rem 1rem 0.65rem 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text);
+  min-width: 220px;
+}
+/* Sub-task indentation */
+.td-task.subtask {
+  padding-left: 1.6rem;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+.td-task.subtask::before {
+  content: "└ ";
+  color: var(--color-text-faint);
+  font-size: 0.75rem;
+}
+.td-owner {
+  padding: 0.65rem 1rem;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  min-width: 140px;
+}
+.td-status {
+  padding: 0.65rem 0.75rem;
+  text-align: center;
+  width: 110px;
+}
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.badge-done     { background: var(--color-done-bg);     color: var(--color-done-text); }
+.badge-progress { background: var(--color-progress-bg); color: var(--color-progress-text); }
+.badge-pending  { background: var(--color-pending-bg);  color: var(--color-pending-text); }
+
+/* WEEK CELLS */
+.td-week {
+  padding: 0.55rem 0.2rem;
+  text-align: center;
+  border-left: 1px solid var(--color-divider);
+  width: 30px;
+  min-width: 28px;
+}
+.week-bar {
+  width: 22px;
+  height: 14px;
+  border-radius: 3px;
+  margin: 0 auto;
+  position: relative;
+}
+.bar-done    { background: var(--color-done);     opacity: 0.9; }
+.bar-progress { background: var(--color-progress); opacity: 0.85; }
+.bar-pending  { background: var(--color-pending);  opacity: 0.35; }
+.bar-empty    { background: transparent; }
+
+/* Sub-task rows: slightly dimmer bar */
+.is-subtask .week-bar { height: 10px; opacity: 0.75; }
+
+/* SECTION SEPARATOR */
+.section-row td {
+  background: var(--color-surface-2);
+  padding: 0.3rem 1rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-faint);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* PARENT TASK rows (bold group header for sub-tasks) */
+.gantt-table tbody tr.parent-row .td-task {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* FOOTER */
+.gantt-footer {
+  max-width: 1200px;
+  margin: 1.2rem auto 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0 0.25rem;
+}
+.footer-note {
+  font-size: 0.72rem;
+  color: var(--color-text-faint);
+}
+
+.gantt-scroll { overflow-x: auto; }
+
+@media (max-width: 700px) {
+  body { padding: 1rem 0.5rem; }
+  .td-owner { display: none; }
+  .td-task { min-width: 130px; font-size: 0.78rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="header-left">
+    <div class="project-label">IWG-400 · USM Valparaíso · 2026</div>
+    <div class="project-title">Carta Gantt — AquaSense</div>
+    <div class="project-sub">Período: Marzo – Junio 2026</div>
+  </div>
+  <div class="header-right">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--color-done)"></div> Completado</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--color-progress)"></div> En curso</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--color-pending);opacity:0.5"></div> Sin comenzar</div>
+    </div>
+    <button class="btn-toggle" data-theme-toggle aria-label="Cambiar tema">🌙</button>
+  </div>
+</div>
+
+<div class="gantt-card">
+  <div class="gantt-scroll">
+  <table class="gantt-table">
+    <thead>
+      <tr>
+        <th colspan="4" style="border-right:1px solid var(--color-border);"></th>
+        <th class="th-month" colspan="4">MARZO</th>
+        <th class="th-month" colspan="4" style="border-left:2px solid var(--color-border)">ABRIL</th>
+        <th class="th-month" colspan="4" style="border-left:2px solid var(--color-border)">MAYO</th>
+        <th class="th-month" colspan="4" style="border-left:2px solid var(--color-border)">JUNIO</th>
+      </tr>
+      <tr>
+        <th class="th-center" style="width:36px">#</th>
+        <th>Tarea</th>
+        <th>Encargado</th>
+        <th class="th-center" style="border-right:1px solid var(--color-border)">Estado</th>
+        <th class="th-week">S1</th><th class="th-week">S2</th><th class="th-week">S3</th><th class="th-week">S4</th>
+        <th class="th-week" style="border-left:2px solid var(--color-border)">S1</th><th class="th-week">S2</th><th class="th-week">S3</th><th class="th-week">S4</th>
+        <th class="th-week" style="border-left:2px solid var(--color-border)">S1</th><th class="th-week">S2</th><th class="th-week">S3</th><th class="th-week">S4</th>
+        <th class="th-week" style="border-left:2px solid var(--color-border)">S1</th><th class="th-week">S2</th><th class="th-week">S3</th><th class="th-week">S4</th>
+      </tr>
+    </thead>
+    <tbody id="gantt-body"></tbody>
+  </table>
+  </div>
+</div>
+
+<div class="gantt-footer">
+  <span class="footer-note">Generado: 13/04/2026 · Proyecto AquaSense · IWG-400 Proyecto Inicial</span>
+  <span class="footer-note">USM Valparaíso 2026</span>
+</div>
+
+<script>
+// weeks: array of 16 values (Mar S1-S4 | Abr S1-S4 | May S1-S4 | Jun S1-S4)
+// isParent: true  → negrita, sin barra propia (actúa como encabezado de grupo)
+// isSubtask: true → sangría, barra más delgada
+const tasks = [
+
+  // ─── FASE INICIAL ──────────────────────────────────────────────────────────
+  { section: "FASE INICIAL — PLANIFICACIÓN" },
+  { id:1,  task:"Idear los 3 proyectos",        owner:"Todo el grupo",   status:"done",     weeks:[1,1,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0] },
+  { id:2,  task:"Presentar las 3 ideas",         owner:"Todo el grupo",   status:"done",     weeks:[0,1,1,0, 0,0,0,0, 0,0,0,0, 0,0,0,0] },
+  { id:3,  task:"Profundizar la idea elegida",   owner:"Todo el grupo",   status:"done",     weeks:[0,0,1,1, 0,0,0,0, 0,0,0,0, 0,0,0,0] },
+  { id:4,  task:"Crear carta Gantt",             owner:"Domingo Vargas",  status:"done",     weeks:[0,0,1,1, 1,0,0,0, 0,0,0,0, 0,0,0,0] },
+
+  // ─── FASE HARDWARE ─────────────────────────────────────────────────────────
+  { section: "FASE DESARROLLO — HARDWARE" },
+
+  // Componentes → grupo padre con sub-tareas
+  { id:5,  task:"Selección y adquisición de componentes", owner:"Daniel Guerra", status:"done", weeks:[0,0,0,1, 1,0,0,0, 0,0,0,0, 0,0,0,0], isParent:true },
+  { id:"5a", task:"Sensor de temperatura DS18B20",        owner:"Daniel Guerra", status:"done", weeks:[0,0,0,1, 0,0,0,0, 0,0,0,0, 0,0,0,0], isSubtask:true },
+  { id:"5b", task:"Sensor de pH (electrodo + módulo ADS1115)", owner:"Daniel Guerra", status:"done", weeks:[0,0,0,1, 1,0,0,0, 0,0,0,0, 0,0,0,0], isSubtask:true },
+  { id:"5c", task:"Microcontrolador ESP32",               owner:"Daniel Guerra", status:"done", weeks:[0,0,0,0, 1,0,0,0, 0,0,0,0, 0,0,0,0], isSubtask:true },
+  { id:"5d", task:"Fuente de alimentación y carcasa",     owner:"Daniel Guerra", status:"done", weeks:[0,0,0,0, 1,0,0,0, 0,0,0,0, 0,0,0,0], isSubtask:true },
+
+  { id:6,  task:"Diagrama de circuito",          owner:"Bruno Olguín",    status:"progress", weeks:[0,0,0,0, 1,1,1,0, 0,0,0,0, 0,0,0,0] },
+
+  // Programar sensores → grupo padre con sub-tareas
+  { id:7,  task:"Programar los sensores (ESP32)", owner:"Fluxá & Guerra",  status:"progress", weeks:[0,0,0,0, 1,1,1,1, 0,0,0,0, 0,0,0,0], isParent:true },
+  { id:"7a", task:"Lectura de temperatura (DS18B20 + protocolo 1-Wire)", owner:"Lucas Fluxá",  status:"progress", weeks:[0,0,0,0, 1,1,0,0, 0,0,0,0, 0,0,0,0], isSubtask:true },
+  { id:"7b", task:"Lectura de pH (ADC ADS1115 + conversión mV→pH)",      owner:"Daniel Guerra", status:"progress", weeks:[0,0,0,0, 0,1,1,0, 0,0,0,0, 0,0,0,0], isSubtask:true },
+  { id:"7c", task:"Transmisión de datos vía WiFi / MQTT",                 owner:"Lucas Fluxá",  status:"progress", weeks:[0,0,0,0, 0,0,1,1, 0,0,0,0, 0,0,0,0], isSubtask:true },
+
+  // ─── FASE SOFTWARE ─────────────────────────────────────────────────────────
+  { section: "FASE DESARROLLO — APLICACIÓN MÓVIL / WEB" },
+
+  // Desarrollo de aplicación → grupo padre con sub-tareas detalladas
+  { id:8,  task:"Desarrollo de aplicación",       owner:"Fluxá & Vargas", status:"progress", weeks:[0,0,0,0, 1,1,1,1, 1,1,0,0, 0,0,0,0], isParent:true },
+  { id:"8a", task:"Diseño de pantallas (wireframes + UI kit)",            owner:"Domingo Vargas", status:"progress", weeks:[0,0,0,0, 1,1,0,0, 0,0,0,0, 0,0,0,0], isSubtask:true },
+  { id:"8b", task:"Configuración del proyecto (React Native / Flutter)",  owner:"Lucas Fluxá",    status:"progress", weeks:[0,0,0,0, 1,0,0,0, 0,0,0,0, 0,0,0,0], isSubtask:true },
+  { id:"8c", task:"Módulo de conexión WiFi / Bluetooth con ESP32",        owner:"Lucas Fluxá",    status:"progress", weeks:[0,0,0,0, 0,1,1,0, 0,0,0,0, 0,0,0,0], isSubtask:true },
+  { id:"8d", task:"Visualización en tiempo real (temperatura y pH)",      owner:"Domingo Vargas", status:"progress", weeks:[0,0,0,0, 0,0,1,1, 0,0,0,0, 0,0,0,0], isSubtask:true },
+  { id:"8e", task:"Historial de datos y gráficos (base de datos local)",  owner:"Bruno Olguín",   status:"progress", weeks:[0,0,0,0, 0,0,0,1, 1,0,0,0, 0,0,0,0], isSubtask:true },
+  { id:"8f", task:"Sistema de alertas y notificaciones push",             owner:"Bruno Olguín",   status:"pending",  weeks:[0,0,0,0, 0,0,0,0, 1,1,0,0, 0,0,0,0], isSubtask:true },
+
+  // ─── FASE INTEGRACIÓN ──────────────────────────────────────────────────────
+  { section: "FASE INTEGRACIÓN — MONTAJE & PRUEBAS" },
+  { id:9,  task:"Montaje y cableado",            owner:"Olguín & Vargas", status:"pending",  weeks:[0,0,0,0, 0,0,0,1, 1,1,0,0, 0,0,0,0] },
+  { id:10, task:"Calibración de sensores",        owner:"Fluxá & Guerra",  status:"pending",  weeks:[0,0,0,0, 0,0,0,0, 1,1,1,0, 0,0,0,0] },
+  { id:11, task:"Poner a prueba el proyecto",     owner:"Todo el grupo",   status:"pending",  weeks:[0,0,0,0, 0,0,0,0, 0,1,1,1, 0,0,0,0] },
+
+  // ─── FASE CIERRE ───────────────────────────────────────────────────────────
+  { section: "FASE CIERRE — ENTREGA" },
+  { id:12, task:"Corrección de fallas",           owner:"Todo el grupo",   status:"pending",  weeks:[0,0,0,0, 0,0,0,0, 0,0,1,1, 1,0,0,0] },
+  { id:13, task:"Pruebas finales",                owner:"Todo el grupo",   status:"pending",  weeks:[0,0,0,0, 0,0,0,0, 0,0,0,0, 1,1,0,0] },
+  { id:14, task:"Entrega del proyecto",           owner:"Todo el grupo",   status:"pending",  weeks:[0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,1,1] },
+];
+
+const statusLabel = { done:"Completado", progress:"En curso", pending:"Sin comenzar" };
+const statusClass = { done:"badge-done", progress:"badge-progress", pending:"badge-pending" };
+const statusIcon  = { done:"✓", progress:"◑", pending:"○" };
+const barClass    = { done:"bar-done", progress:"bar-progress", pending:"bar-pending" };
+const monthStart  = new Set([0,4,8,12]);
+
+function buildTable() {
+  const tbody = document.getElementById('gantt-body');
+
+  tasks.forEach(row => {
+    // Section separator
+    if (row.section !== undefined) {
+      const tr = document.createElement('tr');
+      tr.className = 'section-row';
+      const td = document.createElement('td');
+      td.colSpan = 20;
+      td.textContent = row.section;
+      tr.appendChild(td);
+      tbody.appendChild(tr);
+      return;
+    }
+
+    const tr = document.createElement('tr');
+    if (row.isParent)  tr.classList.add('parent-row');
+    if (row.isSubtask) tr.classList.add('is-subtask');
+
+    // # cell
+    const tdNum = document.createElement('td');
+    tdNum.className = 'td-num';
+    tdNum.textContent = row.isSubtask ? '' : row.id;
+    tr.appendChild(tdNum);
+
+    // Task name
+    const tdTask = document.createElement('td');
+    tdTask.className = row.isSubtask ? 'td-task subtask' : 'td-task';
+    tdTask.textContent = row.task;
+    tr.appendChild(tdTask);
+
+    // Owner
+    const tdOwner = document.createElement('td');
+    tdOwner.className = 'td-owner';
+    tdOwner.textContent = row.owner;
+    tr.appendChild(tdOwner);
+
+    // Status badge — parent rows show badge, subtasks show nothing
+    const tdStatus = document.createElement('td');
+    tdStatus.className = 'td-status';
+    tdStatus.style.borderRight = '1px solid var(--color-border)';
+    if (!row.isParent) {
+      const badge = document.createElement('span');
+      badge.className = `status-badge ${statusClass[row.status]}`;
+      badge.textContent = `${statusIcon[row.status]} ${statusLabel[row.status]}`;
+      tdStatus.appendChild(badge);
+    }
+    tr.appendChild(tdStatus);
+
+    // Week bars — parent rows render bars, subtasks also render bars
+    row.weeks.forEach((active, i) => {
+      const td = document.createElement('td');
+      td.className = 'td-week';
+      if (monthStart.has(i)) {
+        td.style.borderLeft = i === 0 ? '1px solid var(--color-divider)' : '2px solid var(--color-border)';
+      }
+      const bar = document.createElement('div');
+      bar.className = `week-bar ${active ? barClass[row.status] : 'bar-empty'}`;
+
+      if (active) {
+        const prev = i > 0  ? row.weeks[i-1] : 0;
+        const next = i < 15 ? row.weeks[i+1] : 0;
+        let r = '3px';
+        if (prev && next) r = '0';
+        else if (prev) r = '0 3px 3px 0';
+        else if (next) r = '3px 0 0 3px';
+        bar.style.borderRadius = r;
+        bar.style.width = '100%';
+      }
+      td.appendChild(bar);
+      tr.appendChild(td);
+    });
+
+    tbody.appendChild(tr);
+  });
+}
+
+buildTable();
+
+// Theme toggle
+(function(){
+  const btn  = document.querySelector('[data-theme-toggle]');
+  const html = document.documentElement;
+  let theme  = 'light';
+  html.setAttribute('data-theme', theme);
+  btn.innerHTML = '🌙';
+  btn.addEventListener('click', () => {
+    theme = theme === 'light' ? 'dark' : 'light';
+    html.setAttribute('data-theme', theme);
+    btn.innerHTML = theme === 'dark' ? '☀️' : '🌙';
+  });
+})();
+</script>
+</body>
+</html>
