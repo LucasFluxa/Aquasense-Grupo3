@@ -93,7 +93,7 @@ Repositorio del grupo 3 para el proyecto del ramo *Proyecto Inicial (IWG400)* â€
 
 ## ðŸ“… Cronograma de trabajo
 
-[Carta Gantt](lucasfluxa.github.io/Aquasense-Grupo3/Cartagantt.html)
+[Carta Gantt](https://lucasfluxa.github.io/Aquasense-Grupo3/Cartagantt.html)
 
 ---
 
