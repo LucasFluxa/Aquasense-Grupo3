@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AquaSense</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0d1117; color: #f0f6fc; font-family: Calibri, sans-serif; padding: 20px; }
+    h1 { color: #00d4aa; text-align: center; margin-bottom: 20px; font-size: 2rem; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 900px; margin: auto; }
+    .card { background: #161b22; border-radius: 12px; padding: 20px; border: 1px solid #21262d; }
+    .card h2 { font-size: 1rem; color: #8b949e; margin-bottom: 10px; }
+    .valor { font-size: 3rem; font-weight: bold; color: #00d4aa; }
+    .alerta { color: #f85149 !important; }
+    .ok { color: #3fb950; }
+    .camara { grid-column: 1 / -1; }
+    .camara img { width: 100%; border-radius: 8px; }
+    .historial { grid-column: 1 / -1; }
+    .historial ul { list-style: none; max-height: 150px; overflow-y: auto; }
+    .historial ul li { padding: 4px 0; border-bottom: 1px solid #21262d; font-size: 0.9rem; color: #8b949e; }
+  </style>
+</head>
+<body>
+  <h1>🐠 AquaSense</h1>
+  <div class="grid">
+
+    <div class="card">
+      <h2>🌡️ Temperatura</h2>
+      <div class="valor" id="temp">--</div>
+      <div id="alerta_temp"></div>
+    </div>
+
+    <div class="card">
+      <h2>📷 Actividad en el acuario</h2>
+      <div class="valor" id="movimiento">--</div>
+    </div>
+
+    <div class="card camara">
+      <h2>📹 Cámara en vivo</h2>
+      <img src="/video" alt="Cámara">
+    </div>
+
+    <div class="card historial">
+      <h2>📈 Historial de temperatura</h2>
+      <ul id="historial"></ul>
+    </div>
+
+  </div>
+
+  <script>
+    async function actualizar() {
+      const res = await fetch("/datos");
+      const d = await res.json();
+
+      const tempEl = document.getElementById("temp");
+      tempEl.textContent = d.temperatura !== null ? d.temperatura.toFixed(1) + " °C" : "--";
+      tempEl.className = "valor " + (d.alerta_temp ? "alerta" : "ok");
+
+      document.getElementById("alerta_temp").textContent =
+        d.alerta_temp ? "⚠️ Fuera del rango ideal (24–28°C)" : "✅ Temperatura correcta";
+
+      document.getElementById("movimiento").textContent =
+        d.movimiento ? "🔴 Actividad alta" : "🟢 Sin movimiento";
+
+      const lista = document.getElementById("historial");
+      lista.innerHTML = "";
+      [...d.historial].reverse().forEach(h => {
+        const li = document.createElement("li");
+        li.textContent = `${h.hora} — ${h.temp.toFixed(1)} °C`;
+        lista.appendChild(li);
+      });
+    }
+
+    setInterval(actualizar, 2000);
+    actualizar();
+  </script>
+</body>
+</html>

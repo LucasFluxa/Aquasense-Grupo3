@@ -1,0 +1,6 @@
+name: Aquasense
+description: ""
+ports:
+- 5000
+bricks: []
+icon: 🐠
