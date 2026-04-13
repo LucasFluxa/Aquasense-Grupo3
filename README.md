@@ -1,4 +1,3 @@
-
 # PROY-2026-GRUPO-3
 
 Repositorio del grupo 3 para el proyecto del ramo *Proyecto Inicial (IWG400)* – 2026.
@@ -61,7 +60,14 @@ Repositorio del grupo 3 para el proyecto del ramo *Proyecto Inicial (IWG400)* �
   - DS18B20 — temperatura del agua (sumergible, OneWire)
   - pH-4502C — pH del agua (analógico, con placa de acondicionamiento)
   - TSD-10 — turbidez del agua (analógico)
-  - Webcam USB — tracking de movimiento de peces (V4L2 / OpenCV)
+  - Webcam USB — tracking de movimiento de peces (V4L2)
+
+- **Software y librerías:**
+  - Flask — servidor web
+  - OpenCV — captura de video y detección de movimiento
+  - YOLOv8 (Ultralytics) — detección e identificación de especies *(en desarrollo)*
+  - pyserial — comunicación serial STM32 → Python
+  - OneWire + DallasTemperature — lectura del DS18B20
 
 ---
 
@@ -94,7 +100,6 @@ Repositorio del grupo 3 para el proyecto del ramo *Proyecto Inicial (IWG400)* �
 ## 📚 Bibliografía
 
 - [Arduino UNO Q — Documentación oficial](https://docs.arduino.cc/hardware/uno-q/)
-
 
 ---
 
